@@ -272,6 +272,9 @@ void VideoThread::run()
     const char* pkt_data = NULL; // workaround for libav9 decode fail but error code >= 0
     qint64 last_deliver_time = 0;
     int sync_id = 0;
+
+    int seek_retries = 0;
+
     while (!d.stop) {
         processNextTask();
         //TODO: why put it at the end of loop then stepForward() not work?
@@ -531,6 +534,12 @@ void VideoThread::run()
                 v_a = 0;
                 continue;
             }
+            else if(pts > d.render_pts0+0.05 && seek_retries < 10) {
+                seek_retries++;
+                // at least seeking with CUDA can fail a couple of times, so try again a couple of times to make sure
+                continue;
+            }
+            seek_retries = 0;
             d.render_pts0 = -1;
             qDebug("video seek finished @%f. id: %d", pts, sync_id);
             d.clock->syncEndOnce(sync_id);
