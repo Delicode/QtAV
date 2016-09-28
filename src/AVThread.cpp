@@ -366,6 +366,8 @@ void AVThread::waitAndCheck(ulong value, qreal pts)
     DPTR_D(AVThread);
     if (value <= 0)
         return;
+    if(d.wait_err < 0 && value < -d.wait_err)
+        return;
     value += d.wait_err;
     d.wait_timer.restart();
     //qDebug("wating for %lu msecs", value);
