@@ -103,7 +103,7 @@ private:
  */
 template <typename T, template <typename> class Container>
 BlockingQueue<T, Container>::BlockingQueue()
-    :block_empty(true),block_full(true),cap(48),thres(32)
+    :block_empty(true),block_full(true),cap(4*48),thres(4*32)
     , empty_callback(0)
     , threshold_callback(0)
     , full_callback(0)
