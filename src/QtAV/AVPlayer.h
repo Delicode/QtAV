@@ -401,6 +401,8 @@ public Q_SLOTS:
      */
     bool load();
 
+    void rewind();
+
     void togglePause();
     void pause(bool p = true);
     /*!

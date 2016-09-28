@@ -66,6 +66,7 @@ Q_SIGNALS:
     void seekFinished(qint64 timestamp);
     void stepFinished();
     void internalSubtitlePacketRead(int index, const QtAV::Packet& packet);
+    void rewind();
 private slots:
     void seekOnPauseFinished();
     void frameDeliveredOnStepForward();
