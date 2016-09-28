@@ -612,6 +612,15 @@ void AVDemuxThread::run()
         }
         updateBufferState();
         if (!demuxer->readFrame()) {
+            if(demuxer->atEnd()) {
+                int tries = 100;
+                while(!vqueue->isEmpty() && tries) {
+                    msleep(10);
+                    tries--;
+                }
+
+                Q_EMIT rewind();
+            }
             continue;
         }
         stream = demuxer->stream();
